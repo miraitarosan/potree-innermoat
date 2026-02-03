@@ -22604,6 +22604,7 @@ initSidebar = (viewer) => {
 		`);
 		elNavigation.append(elCameraProjection);
 		elCameraProjection.selectgroup({title: "Camera Projection"});
+elCameraProjection.hide();
 		elCameraProjection.find("input").click( (e) => {
 			viewer.setCameraMode(Potree.CameraMode[e.target.value]);
 		});
