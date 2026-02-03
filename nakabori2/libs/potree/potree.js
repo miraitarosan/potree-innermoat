@@ -19372,40 +19372,40 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			}, function (t) {
 				// Start translation once everything is loaded
 				$('body').i18n();
-			});
 
-			$(() => {
-				initSidebar(this);
+				$(() => {
+					initSidebar(viewer);
 
-				//if (callback) {
-				//	$(callback);
-				//}
+					//if (callback) {
+					//	$(callback);
+					//}
 
-				let elProfile = $('<div>').load(new URL(Potree.scriptPath + '/profile.html').href, () => {
-					$(document.body).append(elProfile.children());
-					this.profileWindow = new Potree.ProfileWindow(this);
-					this.profileWindowController = new Potree.ProfileWindowController(this);
+					let elProfile = $('<div>').load(new URL(Potree.scriptPath + '/profile.html').href, () => {
+						$(document.body).append(elProfile.children());
+						viewer.profileWindow = new Potree.ProfileWindow(viewer);
+						viewer.profileWindowController = new Potree.ProfileWindowController(viewer);
 
-					$('#profile_window').draggable({
-						handle: $('#profile_titlebar'),
-						containment: $(document.body)
+						$('#profile_window').draggable({
+							handle: $('#profile_titlebar'),
+							containment: $(document.body)
+						});
+						$('#profile_window').resizable({
+							containment: $(document.body),
+							handles: 'n, e, s, w'
+						});
+
+						$(() => {
+							viewer.guiLoaded = true;
+							for(let task of viewer.guiLoadTasks){
+								task();
+							}
+
+						});
 					});
-					$('#profile_window').resizable({
-						containment: $(document.body),
-						handles: 'n, e, s, w'
-					});
-
-					$(() => {
-						this.guiLoaded = true;
-						for(let task of this.guiLoadTasks){
-							task();
-						}
-
-					});
-				});
 
 				
 
+				});
 			});
 
 			
