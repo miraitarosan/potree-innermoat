@@ -22516,7 +22516,7 @@ initSidebar = (viewer) => {
 		));
 
 		elNavigation.append(createToolIcon(
-			Potree.resourcePath + '/icons/fps_controls.svg',
+			Potree.resourcePath + '/icons/eye_icon.png',
 			'[title]tt.flight_control',
 			function () {
 				viewer.setNavigationMode(Potree.FirstPersonControls);
@@ -22524,14 +22524,14 @@ initSidebar = (viewer) => {
 			}
 		));
 
-		elNavigation.append(createToolIcon(
-			Potree.resourcePath + '/icons/helicopter_controls.svg',
-			'[title]tt.heli_control',
-			() => { 
-				viewer.setNavigationMode(Potree.FirstPersonControls);
-				viewer.fpControls.lockElevation = true;
-			}
-		));
+		// elNavigation.append(createToolIcon(
+		// 	Potree.resourcePath + '/icons/helicopter_controls.svg',
+		// 	'[title]tt.heli_control',
+		// 	() => { 
+		// 		viewer.setNavigationMode(Potree.FirstPersonControls);
+		// 		viewer.fpControls.lockElevation = true;
+		// 	}
+		// ));
 
 		elNavigation.append(createToolIcon(
 			Potree.resourcePath + '/icons/orbit_controls.svg',
@@ -22547,11 +22547,12 @@ initSidebar = (viewer) => {
 
 
 		
-		elNavigation.append(createToolIcon(
-			Potree.resourcePath + "/icons/navigation_cube.svg",
-			"[title]tt.navigation_cube_control",
-			function(){viewer.toggleNavigationCube()}
-		));
+		let resetIcon = createToolIcon(
+			Potree.resourcePath + '/icons/cansel.png',
+			'[title]tt.reset_view',
+			function () { viewer.setNavigationMode(Potree.OrbitControls); }
+		);
+		elNavigation.append(resetIcon);
 
 		elNavigation.append("<br>");
 
@@ -22659,7 +22660,18 @@ elCameraProjection.hide();
 
 		{
 			let elSplatQuality = $("#splat_quality_options");
-			elSplatQuality.selectgroup({title: "Splat Quality"});
+			elSplatQuality.selectgroup({i18n: "appearance.splat_quality"});
+
+			function isMobileDevice() {
+				return /Mobi|Android/i.test(navigator.userAgent);
+			}
+
+			if (isMobileDevice()) {
+				document.body.classList.add('mobile-device');
+				viewer.useHQ = false; // Standard for mobile
+			} else {
+				viewer.useHQ = true; // HQ for PC
+			}
 
 			elSplatQuality.find("input").click( (e) => {
 				if(e.target.value === "standard"){
