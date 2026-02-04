@@ -63,17 +63,19 @@
 			$("#show_bounding_box").closest("li").hide();
 			$("#set_freeze").closest("li").hide();
 
-			if (/Mobi|Android/i.test(navigator.userAgent)) {
+			// Hide splat_quality_options on mobile devices (smartphones and tablets)
+			const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+			if (isMobile) {
 				$('#splat_quality_options').parent().hide();
 			}
+
+
 
 			// "menu_scene" と "td.classification_filter_opt" を非表示にする
 			$('#menu_scene').hide();
 			$('[data-i18n="td.classification_filter_opt"]').closest('li').hide();
 			$('#menu_classification').hide();
-			// splat quality を強制的に表示
-			$('#splat_quality_options').closest('li').show();
-
+			
 			// Clipping セクションを非表示にする
 			$('#clipping_tools').prev('.divider').hide(); // Clipping の divider
 			$('#clipping_tools').hide();
